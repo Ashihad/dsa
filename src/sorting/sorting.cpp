@@ -3,6 +3,9 @@
 #include <iostream>
 #include <iterator>
 
+/***
+ * see https://en.wikipedia.org/wiki/Insertion_sort
+*/
 void insertion_sort(std::vector<int>& input) {
     // iterate over every element, except for first
     for (auto outer_iter = std::next(begin(input)); outer_iter != end(input); ++outer_iter) {
