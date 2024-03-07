@@ -8,6 +8,7 @@
  * see https://en.wikipedia.org/wiki/Insertion_sort
 */
 void insertion_sort(std::vector<int>& input) {
+    if (input.empty()) return;
     // iterate over every element, except for first
     for (auto outer_iter = std::next(begin(input)); outer_iter != end(input); ++outer_iter) {
         // save current element for comparison

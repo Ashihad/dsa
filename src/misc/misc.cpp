@@ -6,7 +6,7 @@
 std::vector<int> get_random_vector(const int size) {
     std::vector<int> output;
     for (int i = 0; i < size; ++i) {
-        output.push_back(static_cast<int>(std::rand() % (100)));
+        output.push_back(static_cast<int>(std::rand() % (10*size)));
     }
     return output;
 }
