@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <optional>
 
 /***
  * see https://en.wikipedia.org/wiki/Insertion_sort

@@ -1,22 +1,15 @@
 # Sources and Headers
-set(LIBRARY_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sorting.cpp")
-set(LIBRARY_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/sorting.hpp")
-set(LIBRARY_INCLUDES "./" "${CMAKE_BINARY_DIR}/configured_files/include")
+set(SORTING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sorting.cpp")
+set(SORTING_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/sorting.hpp")
+set(SORTING_INCLUDES "./" "${CMAKE_BINARY_DIR}/configured_files/include")
 
-# MyLib Library
-add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
-target_include_directories(${LIBRARY_NAME} PUBLIC ${LIBRARY_INCLUDES})
-#target_link_libraries(
-#    ${LIBRARY_NAME}
-#    PRIVATE nlohmann_json::nlohmann_json
-#            fmt::fmt
-#            spdlog::spdlog
-#            cxxopts::cxxopts)
+add_library(${SORTING_LIBRARY_NAME} STATIC ${SORTING_SOURCES} ${SORTING_HEADERS})
+target_include_directories(${SORTING_LIBRARY_NAME} PUBLIC ${SORTING_INCLUDES})
 
 if(${ENABLE_WARNINGS})
     target_set_warnings(
         TARGET
-        ${LIBRARY_NAME}
+        ${SORTING_LIBRARY_NAME}
         ENABLE
         ${ENABLE_WARNINGS}
         AS_ERRORS
@@ -30,8 +23,3 @@ if(${ENABLE_LTO})
         ENABLE
         ON)
 endif()
-
-#if(${ENABLE_CLANG_TIDY})
-#    add_clang_tidy_to_target(${LIBRARY_NAME})
-#endif()
-

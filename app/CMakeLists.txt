@@ -4,11 +4,7 @@ add_executable(${EXECUTABLE_NAME} ${APP_SOURCES})
 
 target_link_libraries(
     ${EXECUTABLE_NAME}
-    PRIVATE sorting)
-#            nlohmann_json::nlohmann_json
-#            fmt::fmt
-#            spdlog::spdlog
-#            cxxopts::cxxopts)
+    PRIVATE misc sorting searching)
 
 if(${ENABLE_WARNINGS})
     target_set_warnings(
@@ -27,8 +23,3 @@ if(${ENABLE_LTO})
         ENABLE
         ON)
 endif()
-
-#if(${ENABLE_CLANG_TIDY})
-#    add_clang_tidy_to_target(${EXECUTABLE_NAME})
-#endif()
-

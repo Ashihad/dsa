@@ -33,7 +33,10 @@ option(ENABLE_SANITIZE_THREAD "Enable thread sanitize." OFF)
 option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 
 # Project/Library Names
-set(LIBRARY_NAME "sorting")
+set(MISC_LIBRARY_NAME "misc")
+set(SORTING_LIBRARY_NAME "sorting")
+set(SEARCHING_LIBRARY_NAME "searching")
+
 #set(UNIT_TEST_NAME "unit_tests")
 set(EXECUTABLE_NAME "main")
 
