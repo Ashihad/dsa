@@ -1,6 +1,6 @@
 # Sources and Headers
-set(LIBRARY_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test.cpp")
-set(LIBRARY_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/test.hpp")
+set(LIBRARY_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sorting.cpp")
+set(LIBRARY_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/sorting.hpp")
 set(LIBRARY_INCLUDES "./" "${CMAKE_BINARY_DIR}/configured_files/include")
 
 # MyLib Library

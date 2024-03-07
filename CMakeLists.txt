@@ -33,7 +33,7 @@ option(ENABLE_SANITIZE_THREAD "Enable thread sanitize." OFF)
 option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 
 # Project/Library Names
-set(LIBRARY_NAME "dsalib")
+set(LIBRARY_NAME "sorting")
 #set(UNIT_TEST_NAME "unit_tests")
 set(EXECUTABLE_NAME "main")
 
