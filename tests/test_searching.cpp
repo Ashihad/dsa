@@ -13,7 +13,6 @@ class LinearSearchTests: public testing::Test {
 };
 
 std::size_t insert_value_randomly(std::vector<int>& vec, int value) {
-    std::replace(begin(vec), end(vec), value, 69);
     std::size_t random_index { static_cast<std::size_t>(std::rand()) % vec.size() };
     vec[random_index] = value;
     return random_index;
@@ -32,7 +31,9 @@ TEST_F(LinearSearchTests, SimpleSearch) {
     std::optional<int> ret { linear_search(test_vec, 3) }; 
 
     EXPECT_EQ(ret.has_value(), true);
-    EXPECT_EQ(ret.value(), 1);
+    if (ret.has_value()) {
+        EXPECT_EQ(ret.value(), 1);
+    }
 }
 
 TEST_F(LinearSearchTests, RandomSearchValueInserted) {
