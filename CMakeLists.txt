@@ -20,7 +20,7 @@ option(ENABLE_TESTING "Enable a Unit Testing build." ON)
 
 #option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
 
-option(ENABLE_SANITIZE_ADDR "Enable address sanitize." ON)
+option(ENABLE_SANITIZE_ADDR "Enable address sanitize." OFF)
 option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
 option(ENABLE_SANITIZE_LEAK "Enable leak sanitize." OFF)
 option(ENABLE_SANITIZE_THREAD "Enable thread sanitize." OFF)
