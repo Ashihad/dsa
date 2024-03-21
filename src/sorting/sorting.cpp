@@ -85,10 +85,6 @@ void merge_sort(std::vector<int>::iterator first, std::vector<int>::iterator las
     merge(first, middle, last);
 }
 
-#include <iomanip>
-/***
- * see https://en.wikipedia.org/wiki/Bubble_sort
-*/
 void bubble_sort(std::vector<int>::iterator first, std::vector<int>::iterator last) {
     if (std::distance(first, last) < 2) return;
     // iterate over container, except for last element
