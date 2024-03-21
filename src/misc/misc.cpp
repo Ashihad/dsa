@@ -18,6 +18,13 @@ void print_vector(const std::vector<int>& vec) {
     std::cout << std::endl;
 }
 
+void print_vector(const std::vector<int>::iterator first, const std::vector<int>::iterator last) {
+    for (auto iter = first; iter != last; ++iter) {
+        std::cout << std::setfill(' ') << std::setw(2) << *iter << ' ';
+    }
+    std::cout << std::endl;
+}
+
 void b_and_a(std::function<void(std::vector<int>&)> algo) {
     std::vector<int> tested {get_random_vector(10)};
     std::cout << "Before: " << std::endl;
