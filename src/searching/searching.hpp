@@ -3,4 +3,4 @@
 #include <vector>
 #include <optional>
 
-std::optional<int> linear_search(std::vector<int>, int);
+std::optional<std::size_t> linear_search(const std::vector<int>::iterator, const std::vector<int>::iterator, int value);
