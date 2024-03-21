@@ -6,17 +6,17 @@
 #include <ctime>
 #include <cmath>
 
-class LinearSearchTests: public testing::Test {
-    void SetUp() override {
-        std::srand( static_cast<unsigned>( std::time(0) ) );
-    }
-};
-
 static std::size_t insert_value_randomly(std::vector<int>& vec, int value) {
     std::size_t random_index { static_cast<std::size_t>(std::rand()) % vec.size() };
     vec[random_index] = value;
     return random_index;
 }
+
+class LinearSearchTests: public testing::Test {
+    void SetUp() override {
+        std::srand( static_cast<unsigned>( std::time(0) ) );
+    }
+};
 
 TEST_F(LinearSearchTests, HandleEmptyInput) {
     std::vector<int> test_vec;
@@ -64,4 +64,38 @@ TEST_F(LinearSearchTests, RandomSearchValueNotInserted) {
             EXPECT_EQ(ret.has_value(), false);
         }
     }
+}
+
+// binary_search
+
+class BinarySearchtests: public testing::Test {
+    void SetUp() override {
+        std::srand( static_cast<unsigned>( std::time(0) ) );
+    }
+};
+
+TEST_F(BinarySearchtests, HandleEmptyInput) {
+    std::vector<int> test_vec;
+
+    std::optional<std::size_t> ret { linear_search(begin(test_vec), end(test_vec), 0) };
+    EXPECT_EQ(ret.has_value(), false);
+}
+
+TEST_F(BinarySearchtests, SimpleSearchValueExists) {
+    std::vector<int> test_vec { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+    std::optional<std::size_t> ret { linear_search(begin(test_vec), end(test_vec), 3) };
+
+    EXPECT_EQ(ret.has_value(), true);
+    if (ret.has_value()) {
+        EXPECT_EQ(ret.value(), 2);
+    }
+}
+
+TEST_F(BinarySearchtests, SimpleSearchValueNotExists) {
+    std::vector<int> test_vec { 1, 2, 4, 5, 6, 7, 8, 9 };
+
+    std::optional<std::size_t> ret { linear_search(begin(test_vec), end(test_vec), 3) };
+
+    EXPECT_EQ(ret.has_value(), false);
 }
