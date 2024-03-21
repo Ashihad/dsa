@@ -5,3 +5,4 @@
 void insertion_sort(std::vector<int>::iterator, std::vector<int>::iterator);
 void selection_sort(std::vector<int>::iterator, std::vector<int>::iterator);
 void merge_sort(std::vector<int>::iterator, std::vector<int>::iterator);
+void bubble_sort(std::vector<int>::iterator, std::vector<int>::iterator);

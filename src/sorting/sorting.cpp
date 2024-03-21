@@ -84,3 +84,21 @@ void merge_sort(std::vector<int>::iterator first, std::vector<int>::iterator las
     // merge two halves
     merge(first, middle, last);
 }
+
+#include <iomanip>
+/***
+ * see https://en.wikipedia.org/wiki/Bubble_sort
+*/
+void bubble_sort(std::vector<int>::iterator first, std::vector<int>::iterator last) {
+    if (std::distance(first, last) < 2) return;
+    // iterate over container, except for last element
+    for (auto outer_iter = first; outer_iter != std::prev(last); ++outer_iter) {
+        // construct reverse iterator to current element (+1 bcs reverse iterator offset)
+        auto reverse_end { make_reverse_iterator(outer_iter+1) };
+        // iterate backwards over container's tail
+        for(auto inner_iter = make_reverse_iterator(last); inner_iter != reverse_end; ++inner_iter) {
+            // if current element is lesser than one-to-the-left one swap them
+            if (*inner_iter < *std::next(inner_iter)) std::swap(*inner_iter, *std::next(inner_iter));
+        }
+    }
+}
