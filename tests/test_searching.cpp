@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <algorithm>
 
 static std::vector<int>::iterator insert_value_randomly(std::vector<int>::iterator first, std::vector<int>::iterator last, int value) {
     std::size_t random_index { static_cast<std::size_t>(std::rand()) % static_cast<std::size_t>(std::distance(first, last)) };
