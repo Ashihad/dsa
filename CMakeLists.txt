@@ -34,6 +34,7 @@ option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 set(MISC_LIBRARY_NAME "misc")
 set(SORTING_LIBRARY_NAME "sorting")
 set(SEARCHING_LIBRARY_NAME "searching")
+set(VECTOR_LIBRARY_NAME "vector")
 
 set(UNIT_TEST_NAME "unit_tests")
 set(EXECUTABLE_NAME "main")
