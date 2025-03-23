@@ -78,11 +78,11 @@ public:
   }
 
   // iterators
-  T* begin()
+  T* begin() const
   {
     return m_ptr;
   }
-  T* end()
+  T* end() const
   {
     return m_ptr + m_size;
   }
@@ -233,10 +233,13 @@ private:
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const custom::vector<T>& vec)
 {
-  for(std::size_t i{}; i < vec.length(); ++i)
+  os << "[ ";
+  for(std::size_t i{}; i < vec.size(); ++i)
   {
     os << vec[i] << ' ';
+    if ( (i+1) % 10 == 0  && i != vec.size()-1) os << '\n';
   }
+  os << "]";
   return os;
 }
 

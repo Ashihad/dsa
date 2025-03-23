@@ -1,7 +1,13 @@
 # Sources and Headers
 set(SEARCHING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/searching.cpp")
 set(SEARCHING_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/searching.hpp")
-set(SEARCHING_INCLUDES "./" "${CMAKE_BINARY_DIR}/configured_files/include")
+set(
+  SEARCHING_INCLUDES
+  "./"
+  "${CMAKE_BINARY_DIR}/configured_files/include"
+  "${CMAKE_SOURCE_DIR}/src/misc"
+  "${CMAKE_SOURCE_DIR}/src/vector"
+)
 
 add_library(${SEARCHING_LIBRARY_NAME} STATIC ${SEARCHING_SOURCES} ${SEARCHING_HEADERS})
 target_include_directories(${SEARCHING_LIBRARY_NAME} PUBLIC ${SEARCHING_INCLUDES})
