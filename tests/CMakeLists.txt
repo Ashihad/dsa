@@ -4,6 +4,7 @@ add_executable(
     ${TEST_BINARY_NAME} 
     "test_sorting.cpp"
     "test_searching.cpp"
+    "test_transforming.cpp"
     "test_vector.cpp"
 )
 
@@ -13,6 +14,7 @@ target_link_libraries(
     ${MISC_LIBRARY_NAME}
     ${SORTING_LIBRARY_NAME}
     ${SEARCHING_LIBRARY_NAME}
+    ${TRANSFORMING_LIBRARY_NAME}
     ${VECTOR_LIBRARY_NAME}
 )
 target_link_libraries(${TEST_BINARY_NAME} PRIVATE GTest::gtest_main)

@@ -19,7 +19,7 @@ endif()
 if(${ENABLE_LTO})
     target_enable_lto(
         TARGET
-        ${LIBRARY_NAME}
+        ${SORTING_LIBRARY_NAME}
         ENABLE
         ON)
 endif()

@@ -62,4 +62,28 @@ T* binary_search(custom::vector<T> vec, T value)
   return binary_search(vec.begin(), vec.end(), value);
 }
 
+// find maximum element
+template<typename T>
+T max(T* begin, T* end)
+{
+  T ret{std::numeric_limits<T>::min()};
+  for (T* iter{begin}; iter != end; ++iter)
+  {
+    if (*iter > ret) ret = *iter;
+  }
+  return ret;
+}
+
+// find minimum element
+template<typename T>
+T min(T* begin, T* end)
+{
+  T ret{std::numeric_limits<T>::max()};
+  for (T* iter{begin}; iter != end; ++iter)
+  {
+    if (*iter < ret) ret = *iter;
+  }
+  return ret;
+}
+
 }

@@ -147,6 +147,15 @@ public:
     // Scott Meyer const pattern
     return const_cast<T&>(std::as_const(*this).at(index));
   }
+  bool operator==(vector<T>& other)
+  {
+    if (this->size() != other.size) return false;
+    for (T* iter1{begin(*this)}, iter2{begin(other)}; iter1 != end(*this); ++iter1, ++iter2)
+    {
+      if (*iter1 != *iter2) return false;
+    }
+    return true;
+  }
 
   // add element to the back of an array, reallocate if necessary
   void push_back(const T& value)

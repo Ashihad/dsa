@@ -158,3 +158,19 @@ TEST_F(BinarySearchTests, random_search_value_not_inserted)
     }
   }
 }
+
+class MinMaxTests: public testing::Test {};
+
+TEST_F(MinMaxTests, min_basic)
+{
+  vector<int> test_vec = {1, 2, 3, 5, 4};
+  int ret{min(begin(test_vec), end(test_vec))};
+  ASSERT_EQ(ret, 1);
+}
+
+TEST_F(MinMaxTests, max_basic)
+{
+  vector<int> test_vec = {1, 2, 3, 5, 4};
+  int ret{max(begin(test_vec), end(test_vec))};
+  ASSERT_EQ(ret, 5);
+}
