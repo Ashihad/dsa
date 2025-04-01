@@ -147,10 +147,10 @@ public:
     // Scott Meyer const pattern
     return const_cast<T&>(std::as_const(*this).at(index));
   }
-  bool operator==(vector<T>& other)
+  bool operator==(const vector<T>& other) const
   {
-    if (this->size() != other.size) return false;
-    for (T* iter1{begin(*this)}, iter2{begin(other)}; iter1 != end(*this); ++iter1, ++iter2)
+    if (m_size != other.m_size) return false;
+    for (T* iter1{this->begin()}, *iter2{other.begin()}; iter1 != this->end(); ++iter1, ++iter2)
     {
       if (*iter1 != *iter2) return false;
     }
