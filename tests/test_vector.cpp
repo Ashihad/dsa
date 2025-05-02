@@ -197,7 +197,7 @@ TEST_F(VectorTests, push_back_size_zero)
   ASSERT_GE(vec.capacity(), vec.size());
 }
 
-TEST_F(VectorTests, insert_bracket_basic)
+TEST_F(VectorTests, set_basic)
 {
   vector<int> vec = {1, 2, 3, 4};
   vec[2] = 4;
