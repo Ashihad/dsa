@@ -18,16 +18,15 @@ class vector
 {
 public:
   // constructors/destructor
-  vector() : m_ptr{new T[1]}, m_size{}, m_capacity{1} {}
+  vector() : m_ptr{new T[1]}, m_size{}, m_capacity{} {}
   vector(std::size_t size)
   : m_ptr{new T[size]}, m_size{size}, m_capacity{1}
   {
     fit_capacity();
   }
   vector(std::size_t size, const T& fill_value)
-  : m_ptr{new T[size]}, m_size{size}, m_capacity{1}
+  : vector(size)
   {
-    fit_capacity();
     std::fill(this->begin(), this->end(), fill_value);
   }
   vector(std::initializer_list<T> init)
@@ -90,7 +89,7 @@ public:
   // getters
   std::size_t size() const { return m_size; }
   std::size_t capacity() const { return m_capacity; }
-  std::size_t get() const { return m_ptr; }
+  T* get() const { return m_ptr; }
 
   // reallocate m_ptr if vector runs out of memory
   void reserve(const std::size_t new_capacity)
