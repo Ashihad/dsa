@@ -11,7 +11,7 @@ class VectorTests: public testing::Test {};
 TEST_F(VectorTests, constructor_default)
 {
   vector<int> vec{};
-  ASSERT_EQ(vec.size(), 0);
+  ASSERT_EQ(vec.size(), 1);
 }
 
 TEST_F(VectorTests, constructor_one_arg)
@@ -23,10 +23,23 @@ TEST_F(VectorTests, constructor_one_arg)
   ASSERT_ANY_THROW(vec.at(4));
 }
 
+TEST_F(VectorTests, constructor_fill)
+{
+  vector<int> vec(4, 3);
+  ASSERT_EQ(vec.size(), 4);
+  ASSERT_TRUE(vec.capacity() >= vec.size());
+  ASSERT_NO_THROW(vec.at(3));
+  ASSERT_ANY_THROW(vec.at(4));
+  for (const auto& elem : vec)
+  {
+    ASSERT_EQ(elem, 3);
+  }
+}
+
 TEST_F(VectorTests, get_throws)
 {
   vector<int> vec{};
-  ASSERT_ANY_THROW(vec.at(0));
+  ASSERT_ANY_THROW(vec.at(1));
 }
 
 TEST_F(VectorTests, copy_constructor)
@@ -56,6 +69,20 @@ TEST_F(VectorTests, copy_assignment_operator)
   ASSERT_EQ(vec[1], vec2[1]);
   ASSERT_EQ(vec[2], vec2[2]);
   ASSERT_EQ(vec[3], vec2[3]);
+}
+
+TEST_F(VectorTests, self_assignment)
+{
+  vector<int> vec(4);
+  vec.iota();
+  vec = vec;
+  ASSERT_EQ(vec.size(), 4);
+  ASSERT_GE(vec.capacity(), vec.size());
+
+  ASSERT_EQ(vec[0], 0);
+  ASSERT_EQ(vec[1], 1);
+  ASSERT_EQ(vec[2], 2);
+  ASSERT_EQ(vec[3], 3);
 }
 
 TEST_F(VectorTests, move_constructor)
@@ -116,6 +143,42 @@ TEST_F(VectorTests, filling_constructor)
   for (const auto& elem : vec) ASSERT_EQ(elem, 2);
 }
 
+TEST_F(VectorTests, reserve_increases_capacity)
+{
+  vector<int> vec{};
+  vec.reserve(10);
+  ASSERT_EQ(vec.capacity(), 10);
+}
+
+TEST_F(VectorTests, resize_increases_capacity)
+{
+  vector<int> vec{};
+  vec.resize(10);
+  ASSERT_EQ(vec.size(), 10);
+  ASSERT_GE(vec.capacity(), 10);
+  ASSERT_NO_THROW(vec[9]);
+  ASSERT_ANY_THROW(vec[10]);
+}
+
+TEST_F(VectorTests, resize_shrink)
+{
+  vector<int> vec(10);
+  vec.resize(2);
+  ASSERT_EQ(vec.size(), 2);
+  ASSERT_GE(vec.capacity(), 10);
+  ASSERT_NO_THROW(vec[1]);
+  ASSERT_ANY_THROW(vec[2]);
+}
+
+TEST_F(VectorTests, resize_shrink_to_zero)
+{
+  vector<int> vec(10);
+  vec.resize(0);
+  ASSERT_EQ(vec.size(), 0);
+  ASSERT_GE(vec.capacity(), 10);
+  ASSERT_ANY_THROW(vec[0]);
+}
+
 TEST_F(VectorTests, push_back_basic)
 {
   vector<int> vec = {1, 2, 3, 4};
@@ -134,27 +197,7 @@ TEST_F(VectorTests, push_back_size_zero)
   ASSERT_GE(vec.capacity(), vec.size());
 }
 
-TEST_F(VectorTests, resize_to_smaller)
-{
-  vector<int> vec = {1, 2, 3, 4};
-  vec.resize(2);
-  ASSERT_EQ(vec.size(), 2);
-  ASSERT_EQ(vec[0], 1);
-  ASSERT_EQ(vec[1], 2);
-  ASSERT_ANY_THROW(vec[2]);
-}
-
-TEST_F(VectorTests, resize_to_bigger)
-{
-  vector<int> vec = {1, 2};
-  vec.resize(4);
-  ASSERT_EQ(vec.size(), 4);
-  ASSERT_EQ(vec[0], 1);
-  ASSERT_EQ(vec[1], 2);
-  ASSERT_ANY_THROW(vec[4]);
-}
-
-TEST_F(VectorTests, inserting_basic)
+TEST_F(VectorTests, insert_bracket_basic)
 {
   vector<int> vec = {1, 2, 3, 4};
   vec[2] = 4;

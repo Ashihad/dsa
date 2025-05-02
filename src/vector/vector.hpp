@@ -18,11 +18,12 @@ class vector
 {
 public:
   // constructors/destructor
-  vector() : m_ptr{new T[1]}, m_size{}, m_capacity{} {}
+  vector() : m_size{1}, m_capacity{1}, m_ptr{new T[1]} {}
   vector(std::size_t size)
-  : m_ptr{new T[size]}, m_size{size}, m_capacity{1}
+  : m_size{size}, m_capacity{}, m_ptr{}
   {
-    fit_capacity();
+    std::size_t new_capacity = recalculate_capacity();
+    reserve(new_capacity);
   }
   vector(std::size_t size, const T& fill_value)
   : vector(size)
@@ -30,14 +31,13 @@ public:
     std::fill(this->begin(), this->end(), fill_value);
   }
   vector(std::initializer_list<T> init)
-  : m_ptr{}, m_size(init.size()), m_capacity{1} {
-    fit_capacity();
+  : vector(init.size()) {
     std::copy(init.begin(), init.end(), m_ptr);
   }
   vector(const vector& other)
-  : m_ptr{new T[other.m_capacity]}, m_size{other.m_size}, m_capacity{other.m_capacity}
+  : m_size{other.m_size}, m_capacity{other.m_capacity}, m_ptr{new T[other.m_capacity]}
   {
-    std::memcpy(m_ptr, other.m_ptr, m_size*sizeof(T));
+    std::copy(other.begin(), other.end(), m_ptr);
   }
   vector& operator=(const vector& rhs)
   {
@@ -46,9 +46,9 @@ public:
     return *this;
   }
   vector(vector&& other) noexcept
-  : m_ptr{std::exchange(other.m_ptr, nullptr)},
-    m_size{std::exchange(other.m_size, 0)},
-    m_capacity{std::exchange(other.m_capacity, 0)}
+  : m_size{std::exchange(other.m_size, 0)},
+    m_capacity{std::exchange(other.m_capacity, 0)},
+    m_ptr{std::exchange(other.m_ptr, nullptr)}
   {}
   vector& operator=(vector&& rhs) noexcept
   {
@@ -94,6 +94,7 @@ public:
   // reallocate m_ptr if vector runs out of memory
   void reserve(const std::size_t new_capacity)
   {
+    if (new_capacity == m_capacity) return;
     T* new_ptr{new T[new_capacity]};
     if (m_ptr != nullptr)
       std::memcpy(new_ptr, m_ptr, m_size*sizeof(T));
@@ -112,7 +113,8 @@ public:
       return;
     }
     m_size = new_size;
-    fit_capacity();
+    m_capacity = recalculate_capacity();
+    reserve(m_capacity);
   }
 
   // bound-checking access
@@ -162,7 +164,8 @@ public:
     m_size++;
     if (m_size >= m_capacity)
     {
-      fit_capacity();
+      std::size_t new_capacity = recalculate_capacity();
+      reserve(new_capacity);
     }
     m_ptr[m_size-1] = value;
   }
@@ -201,16 +204,17 @@ public:
   }
 private:
   // check if size exceeds capacity, if so reallocate m_ptr
-  void fit_capacity()
+  std::size_t recalculate_capacity()
   {
-    if (m_capacity >= m_size) return;
+    if (m_capacity >= m_size) return m_capacity;
 
     std::size_t new_capacity{m_capacity};
+    if (new_capacity == 0) new_capacity = 1;
     while (new_capacity < m_size)
     {
       new_capacity = 2 * new_capacity;
     }
-    reserve(new_capacity);
+    return new_capacity;
   }
 
   // move all index starting from index "offset" indexes to the right
@@ -231,9 +235,9 @@ private:
     }
   }
 
-  T* m_ptr;
   std::size_t m_size;
   std::size_t m_capacity;
+  T* m_ptr;
 };
 
 }
