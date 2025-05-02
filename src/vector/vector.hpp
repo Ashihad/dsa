@@ -7,18 +7,20 @@
 #include <cstring>
 #include <utility>
 #include <initializer_list>
+#include <limits>
+#include <numeric>
 
 #include "misc.hpp"
 
 namespace custom
 {
-
 template<typename T>
 class vector
 {
+static_assert(std::is_trivially_default_constructible_v<T>);
 public:
   // constructors/destructor
-  vector() : m_size{1}, m_capacity{1}, m_ptr{new T[1]} {}
+  vector() : m_size{0}, m_capacity{1}, m_ptr{new T[1]} {}
   vector(std::size_t size)
   : m_size{size}, m_capacity{}, m_ptr{}
   {
@@ -183,7 +185,7 @@ public:
     else
     {
       m_size++;
-      shift_elements_right(pos, 1);
+      shift_right(pos, 1);
       m_ptr[pos] = value;
     }
   }
@@ -191,9 +193,10 @@ public:
   void erase(const std::size_t pos)
   {
     if (pos >= m_size) throw std::out_of_range(format("erase, pos=%d, m_size=%d", pos, m_size));
+    shift_left(pos, 1);
     m_size--;
-    shift_elements_left(pos, 1);
   }
+
   T* search(const T& value)
   {
     for (auto iter = this->begin(); iter != this->end(); ++iter)
@@ -202,8 +205,136 @@ public:
     }
     return this->end();
   }
+
+  T max()
+  {
+    if (m_size == 0) throw std::out_of_range("max(), size is 0");
+    T ret{m_ptr[0]};
+    for (const auto& elem : *this)
+    {
+      if (elem > ret) ret = elem;
+    }
+    return ret;
+  }
+
+  T min()
+  {
+    if (m_size == 0) throw std::out_of_range("min(), size is 0");
+    T ret{m_ptr[0]};
+    for (const auto& elem : *this)
+    {
+      if (elem < ret) ret = elem;
+    }
+    return ret;
+  }
+
+  T sum()
+  {
+    if (m_size == 0) throw std::out_of_range("sum(), size is 0");
+    return std::accumulate(begin(), end(), T{});
+  }
+
+  double avg()
+  {
+    if (m_size == 0) throw std::out_of_range("avg(), size is 0");
+    return std::accumulate(begin(), end(), 0.)/static_cast<double>(m_size);
+  }
+
+  void reverse()
+  {
+    if (m_size == 0) throw std::out_of_range("reverse(), size is 0");
+    for(std::size_t i{}; i < m_size/2; i++)
+    {
+      std::swap(m_ptr[i], m_ptr[m_size-i-1]);
+    }
+  }
+
+  void shift_right(const std::size_t index = 0, const std::size_t offset = 1)
+  {
+    if (m_size == 0) throw std::out_of_range("shift_right(), size is 0");
+    if (index > m_size-1) throw std::out_of_range(format("shift_right, index = %zu, size = %zu", index, m_size));
+    if (index+offset > m_size-1) throw std::out_of_range(format("shift_right, index = %zu, offset = %zu, size = %zu", index, offset, m_size));
+    for (std::size_t i = m_size-1; i >= index+offset; i--)
+    {
+      m_ptr[i] = m_ptr[i-offset];
+    }
+    for(std::size_t i{index}; i < index+offset; i++)
+    {
+      m_ptr[i] = 0;
+    }
+  }
+
+  void shift_left(const std::size_t index = 0, const std::size_t offset = 1)
+  {
+    if (m_size == 0) throw std::out_of_range("shift_left(), size is 0");
+    if (index > m_size-1) throw std::out_of_range(format("shift_left, index = %zu, size = %zu", index, m_size));
+    if (m_size < offset) throw std::out_of_range(format("shift_left, offset = %zu, size = %zu", offset, m_size));
+    for (std::size_t i = index; i <= m_size-offset; ++i)
+    {
+      m_ptr[i] = m_ptr[i+offset];
+    }
+    for(std::size_t i{m_size-1}; i > m_size-offset-1; i--)
+    {
+      m_ptr[i] = 0;
+    }
+  }
+
+  void rotate_left()
+  {
+    T elem{m_ptr[0]};
+    shift_left(0, 1);
+    m_ptr[m_size-1] = elem;
+  }
+
+  void rotate_right()
+  {
+    T elem{m_ptr[m_size-1]};
+    shift_right(0, 1);
+    m_ptr[0] = elem;
+  }
+
+  bool is_sorted()
+  {
+    T last{m_ptr[0]};
+    for (auto iter{begin()+1}; iter != end(); iter++)
+    {
+      if (last > *iter) return false;
+      last = *iter;
+    }
+    return true;
+  }
+
+  void insert_sorted(const T& val)
+  {
+    for (std::size_t i{}; i < m_size; i++)
+    {
+      if (val < m_ptr[i])
+      {
+        insert(i, val);
+        return;
+      }
+    }
+    push_back(val);
+  }
+
+  void partition()
+  {
+    auto pred = [](T x)
+    {
+      return x > 0;
+    };
+    T* i{begin()};
+    T* j{end()-1};
+    while(i < j)
+    {
+      while(pred(*i)) i++;
+      while(!pred(*j)) j--;
+      if (i < j) std::swap(*i, *j);
+    }
+  }
+
 private:
-  // check if size exceeds capacity, if so reallocate m_ptr
+  // increase capacity if needes based on m_size, does not relocate anything
   std::size_t recalculate_capacity()
   {
     if (m_capacity >= m_size) return m_capacity;
@@ -215,24 +346,6 @@ private:
       new_capacity = 2 * new_capacity;
     }
     return new_capacity;
-  }
-
-  // move all index starting from index "offset" indexes to the right
-  void shift_elements_right(const std::size_t index, const std::size_t offset)
-  {
-    for (std::size_t i = (m_size-1)-offset; i >= index; --i)
-    {
-      m_ptr[i+offset] = m_ptr[i];
-    }
-  }
-
-  // move all index starting from index "offset" indexes to the left
-  void shift_elements_left(const std::size_t index, const std::size_t offset)
-  {
-    for (std::size_t i = index; i <= m_size-offset; ++i)
-    {
-      m_ptr[index] = m_ptr[i+offset];
-    }
   }
 
   std::size_t m_size;
