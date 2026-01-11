@@ -1,6 +1,7 @@
 #pragma once
 
-#include "vector.hpp"
+#include <cstdlib>
+#include <limits>
 
 namespace custom
 {
@@ -16,11 +17,6 @@ T* linear_search(T* begin, T* end, T value)
     if (*iter == value) return iter;
   }
   return end;
-}
-template<typename T>
-T* linear_search(custom::vector<T> vec, T value)
-{
-  return linear_search(vec.begin(), vec.end(), value);
 }
 
 /***
@@ -55,11 +51,6 @@ T* binary_search(T* begin, T* end, T value)
   int ret{binary_search_impl(begin, 0, static_cast<std::size_t>(end-begin), value)};
   if (ret == -1) return end;
   return begin + ret;
-}
-template<typename T>
-T* binary_search(custom::vector<T> vec, T value)
-{
-  return binary_search(vec.begin(), vec.end(), value);
 }
 
 // find maximum element

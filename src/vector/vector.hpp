@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <cstdarg>
 #include <algorithm>
 #include <cstdlib>
@@ -10,6 +11,8 @@
 #include <limits>
 #include <numeric>
 
+#include "searching.hpp"
+#include "transforming.hpp"
 #include "misc.hpp"
 
 namespace custom
@@ -242,11 +245,7 @@ public:
 
   void reverse()
   {
-    if (m_size == 0) throw std::out_of_range("reverse(), size is 0");
-    for(std::size_t i{}; i < m_size/2; i++)
-    {
-      std::swap(m_ptr[i], m_ptr[m_size-i-1]);
-    }
+    custom::reverse(begin(), end());
   }
 
   void shift_right(const std::size_t index = 0, const std::size_t offset = 1)
@@ -293,13 +292,28 @@ public:
     m_ptr[0] = elem;
   }
 
-  bool is_sorted()
+  bool is_sorted() const
   {
     T last{m_ptr[0]};
     for (auto iter{begin()+1}; iter != end(); iter++)
     {
       if (last > *iter) return false;
       last = *iter;
+    }
+    return true;
+  }
+
+  bool is_set() const
+  {
+    vector<T> seen_elements{};
+    for (auto iter{begin()}; iter != end(); iter++)
+    {
+      auto searched{linear_search(seen_elements.begin(), seen_elements.end(), *iter)};
+      
+      if (searched != seen_elements.end()){
+        return false;
+      }
+      seen_elements.push_back(*iter);
     }
     return true;
   }
@@ -353,8 +367,6 @@ private:
   T* m_ptr;
 };
 
-}
-
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const custom::vector<T>& vec)
 {
@@ -384,4 +396,87 @@ template<typename T>
 T* end(const custom::vector<T>& vec)
 {
   return vec.end();
+}
+
+template<typename T>
+custom::vector<T> merge_sorted(const custom::vector<T>& first, const custom::vector<T>& second)
+{
+  if (!first.is_sorted() || !second.is_sorted()) throw std::invalid_argument("vectors are not sorted");
+  
+  auto i{begin(first)};
+  auto j{begin(second)};
+
+  custom::vector<T> ret{};
+  while (i != end(first) && j != end(second))
+  {
+    if (*i < *j)
+    {
+      ret.push_back(*i);
+      i++;
+    }
+    else
+    {
+      ret.push_back(*j);
+      j++;
+    }
+  }
+  // copy remaining
+  while (i != end(first))
+  {
+    ret.push_back(*i);
+    i++;
+  }
+  while (j != end(second))
+  {
+    ret.push_back(*j);
+    j++;
+  }
+  return ret;
+}
+
+template<typename T>
+vector<T> operator|(const vector<T> first, const vector<T> second)
+{
+  if(!first.is_set() || !second.is_set()) throw std::invalid_argument("vectors are not sets");
+
+  vector<T> ret(first);
+  for (const auto& elem : second)
+  {
+    auto searched{linear_search(begin(ret), end(ret), elem)};
+    if (searched != end(ret)) continue;
+    ret.push_back(elem);
+  }
+  return ret;
+}
+
+template<typename T>
+vector<T> intersection(const vector<T> first, const vector<T> second)
+{
+  if(!first.is_set() || !second.is_set()) throw std::invalid_argument("vectors are not sets");
+
+  vector<T> ret{};
+  for (const auto& elem : first)
+  {
+    auto searched{linear_search(begin(second), end(second), elem)};
+    if (searched == end(second)) continue;
+    ret.push_back(elem);
+  }
+  return ret;
+}
+
+template<typename T>
+vector<T> difference(const vector<T> first, const vector<T> second)
+{
+  if(!first.is_set() || !second.is_set()) throw std::invalid_argument("vectors are not sets");
+
+  vector<T> ret{};
+  for (const auto& elem : first)
+  {
+    auto searched{linear_search(begin(second), end(second), elem)};
+    if (searched != end(second)) continue;
+    ret.push_back(elem);
+  }
+  return ret;
+}
+
 }

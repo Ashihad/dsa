@@ -12,10 +12,10 @@ template<typename T>
 void reverse(T* begin, T* end)
 {
   if (std::distance(begin, end) <= 1) return;
-  T* middle{begin + ((end)-begin)/2};
-  for (T* iter{begin}; iter != middle; ++iter)
+  end--;
+  while (begin < end)
   {
-    swap(*iter, *(end - (iter - begin) - 1));
+    std::swap(*(begin++), *(end--));
   }
 }
 

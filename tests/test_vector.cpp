@@ -385,7 +385,7 @@ TEST_F(VectorTests, reverse_odd)
 TEST_F(VectorTests, reverse_empty_vector)
 {
   vector<int> vec{};
-  ASSERT_ANY_THROW(vec.reverse());
+  ASSERT_NO_THROW(vec.reverse());
 }
 
 TEST_F(VectorTests, shift_left_basic)
@@ -518,4 +518,116 @@ TEST_F(VectorTests, partition_already_partitioned)
   ASSERT_EQ(vec[2], 3);
   ASSERT_EQ(vec[3], -4);
   ASSERT_EQ(vec[4], -5);
+}
+
+TEST_F(VectorTests, merge_sorted_basic)
+{
+  vector<int> vec1{1, 3, 5};
+  vector<int> vec2{2, 4, 6};
+  vector<int> vec3{merge_sorted(vec1, vec2)};
+  ASSERT_EQ(vec1.size()+vec2.size(), vec3.size());
+  ASSERT_EQ(vec3[0], 1);
+  ASSERT_EQ(vec3[1], 2);
+  ASSERT_EQ(vec3[2], 3);
+  ASSERT_EQ(vec3[3], 4);
+  ASSERT_EQ(vec3[4], 5);
+  ASSERT_EQ(vec3[5], 6);
+}
+
+TEST_F(VectorTests, is_set_true)
+{
+  vector<int> vec{1, 2, 3, 4, 5};
+  bool ret{vec.is_set()};
+  ASSERT_TRUE(ret);
+}
+
+TEST_F(VectorTests, is_set_false)
+{
+  vector<int> vec{1, 2, 3, 3, 5};
+  bool ret{vec.is_set()};
+  ASSERT_FALSE(ret);
+}
+
+TEST_F(VectorTests, union_no_duplicates)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{4, 5, 6};
+  vector<int> ret{vec1 | vec2};
+  ASSERT_EQ(ret.size(), 6);
+  ASSERT_EQ(ret[0], 1);
+  ASSERT_EQ(ret[1], 2);
+  ASSERT_EQ(ret[2], 3);
+  ASSERT_EQ(ret[3], 4);
+  ASSERT_EQ(ret[4], 5);
+  ASSERT_EQ(ret[5], 6);
+}
+
+TEST_F(VectorTests, union_with_duplicates)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{4, 2, 6};
+  vector<int> ret{vec1 | vec2};
+  ASSERT_EQ(ret.size(), 5);
+  ASSERT_EQ(ret[0], 1);
+  ASSERT_EQ(ret[1], 2);
+  ASSERT_EQ(ret[2], 3);
+  ASSERT_EQ(ret[3], 4);
+  ASSERT_EQ(ret[4], 6);
+}
+
+TEST_F(VectorTests, intersection_same_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{vec1};
+  vector<int> ret{intersection(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 3);
+  ASSERT_EQ(ret[0], 1);
+  ASSERT_EQ(ret[1], 2);
+  ASSERT_EQ(ret[2], 3);
+}
+
+TEST_F(VectorTests, intersection_slightly_different_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{4, 2, 3};
+  vector<int> ret{intersection(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 2);
+  ASSERT_EQ(ret[0], 2);
+  ASSERT_EQ(ret[1], 3);
+}
+
+TEST_F(VectorTests, intersection_full_different_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{4, 5, 6};
+  vector<int> ret{intersection(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 0);
+}
+
+TEST_F(VectorTests, difference_same_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{vec1};
+  vector<int> ret{difference(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 0);
+}
+
+TEST_F(VectorTests, difference_slightly_different_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{1, 2, 4};
+  vector<int> ret{difference(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 1);
+  ASSERT_EQ(ret[0], 3);
+}
+
+TEST_F(VectorTests, difference_full_different_vectors)
+{
+  vector<int> vec1{1, 2, 3};
+  vector<int> vec2{4, 5, 6};
+  vector<int> ret{difference(vec1, vec2)};
+  ASSERT_EQ(ret.size(), 3);
+  ASSERT_EQ(ret[0], 1);
+  ASSERT_EQ(ret[1], 2);
+  ASSERT_EQ(ret[2], 3);
 }

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "searching.hpp"
-#include "misc.hpp"
+#include "test_misc.hpp"
 #include "vector.hpp"
 
 #include <cstdlib>

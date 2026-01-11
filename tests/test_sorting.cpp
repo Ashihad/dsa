@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "sorting.hpp"
-#include "misc.hpp"
+#include "test_misc.hpp"
 
 #include <algorithm>
 
