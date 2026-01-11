@@ -20,7 +20,6 @@ endif()
 # Global compile/link options
 option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
 option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
-option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 
 # Debug build options
 option(ENABLE_SANITIZE_ADDR "Enable address sanitizer." OFF)
@@ -51,12 +50,7 @@ endif()
 
 if(ENABLE_SANITIZE_ADDR OR ENABLE_SANITIZE_UNDEF)
   include(Sanitizer)
-  add_sanitizer._flags()
-endif()
-
-# Manual LTO enabling, not sure if needed
-if(ENABLE_LTO)
-  include(LTO)
+  add_sanitizer_flags()
 endif()
 
 # External dependencies
