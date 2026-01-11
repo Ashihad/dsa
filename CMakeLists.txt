@@ -27,8 +27,6 @@ option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitizer." ON)
 option(ENABLE_SANITIZE_LEAK "Enable leak sanitizer." OFF)
 option(ENABLE_SANITIZE_THREAD "Enable thread sanitizer." OFF)
 
-option(ENABLE_TESTING "Enable a Unit Testing build." ON)
-
 # Project/Library Names
 set(MISC_LIBRARY_NAME "misc")
 set(SORTING_LIBRARY_NAME "sorting")
@@ -55,27 +53,10 @@ endif()
 
 # External dependencies
 include(CPM)
-if(ENABLE_TESTING)
-  cpmaddpackage("gh:google/googletest#v1.14.0")
-endif()
+cpmaddpackage("gh:google/googletest#v1.14.0")
 
-# SUB DIRECTORIES
-add_subdirectory(3rd)
+# Subdirectories
 add_subdirectory(src)
 add_subdirectory(app)
-if(ENABLE_TESTING)
-  enable_testing()
-  add_subdirectory(tests)
-endif()
-
-# Install targets
-install(
-  TARGETS ${EXECUTABLE_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
-
-install(
-  TARGETS ${LIBRARY_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib)
+# enable_testing() # not using CTest atm
+add_subdirectory(tests)

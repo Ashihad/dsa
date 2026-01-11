@@ -4,11 +4,8 @@ function(target_set_warnings)
                         "${multiValueArgs}" ${ARGN})
 
   if(NOT ${TARGET_SET_WARNINGS_ENABLE})
-    message(STATUS "Warnings Disabled for: ${TARGET_SET_WARNINGS_TARGET}")
     return()
   endif()
-  message(STATUS "Warnings Active for: ${TARGET_SET_WARNINGS_TARGET}")
-  message(STATUS "Warnings as Errors: ${TARGET_SET_WARNINGS_AS_ERRORS}")
 
   set(CLANG_WARNINGS
       # Baseline
