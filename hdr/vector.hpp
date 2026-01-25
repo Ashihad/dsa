@@ -17,23 +17,29 @@ class vector {
  public:
   // constructors/destructor
   vector() : m_ptr{new T[1]}, m_size{}, m_capacity{1} {}
-  vector(std::size_t size) : m_ptr{new T[size]}, m_size{size}, m_capacity{1} { fit_capacity(); }
+
+  vector(std::size_t size) : m_ptr{new T[1]}, m_size{size}, m_capacity{1} { fit_capacity(); }
+
   vector(std::size_t size, const T& fill_value) : m_ptr{new T[size]}, m_size{size}, m_capacity{1} {
     fit_capacity();
     std::fill(this->begin(), this->end(), fill_value);
   }
+
   vector(std::initializer_list<T> init) : m_ptr{}, m_size(init.size()), m_capacity{1} {
     fit_capacity();
     std::copy(init.begin(), init.end(), m_ptr);
   }
+
   vector(const vector& other) : m_ptr{new T[other.m_capacity]}, m_size{other.m_size}, m_capacity{other.m_capacity} {
-    std::memcpy(m_ptr, other.m_ptr, m_size * sizeof(T));
+    std::copy(other.begin(), other.end(), m_ptr);
   }
+
   vector& operator=(const vector& rhs) {
     vector tmp(rhs);
     swap(tmp);
     return *this;
   }
+
   vector(vector&& other) noexcept
       : m_ptr{std::exchange(other.m_ptr, nullptr)},
         m_size{std::exchange(other.m_size, 0)},
@@ -42,22 +48,10 @@ class vector {
     move_from(rhs);
     return *this;
   }
+
   virtual ~vector() {
     delete[] m_ptr;
     m_ptr = nullptr;
-  }
-
-  // copy-and-swap idiom, for strong exception safety
-  void swap(vector& other) noexcept {
-    std::swap(m_ptr, other.m_ptr);
-    std::swap(m_size, other.m_size);
-    std::swap(m_capacity, other.m_capacity);
-  }
-  // move-and-destroy idiom, for strong exception safety
-  void move_from(vector& other) noexcept {
-    m_ptr = std::exchange(other.m_ptr, nullptr);
-    m_size = std::exchange(other.m_size, 0);
-    m_capacity = std::exchange(other.m_capacity, 0);
   }
 
   // iterators
@@ -95,25 +89,17 @@ class vector {
     // Scott Meyer const pattern
     return const_cast<T&>(std::as_const(*this).at(index));
   }
+
   const T& at(const std::size_t index) const {
     if (index >= m_size)
       throw std::out_of_range(format("out of bounds access, index = %zu, size = %zu", index, m_size));
     return m_ptr[index];
   }
 
-  // fill vector with 0..m_size-1
-  void iota() {
-    for (std::size_t i{}; i < m_size; ++i) {
-      m_ptr[i] = static_cast<T>(i);
-    }
-  }
-
   // subscript operators, bound check is performed
   const T& operator[](std::size_t index) const { return at(index); }
-  T& operator[](std::size_t index) {
-    // Scott Meyer const pattern
-    return const_cast<T&>(std::as_const(*this).at(index));
-  }
+  // Scott Meyer const pattern
+  T& operator[](std::size_t index) { return const_cast<T&>(std::as_const(*this).at(index)); }
 
   // add element to the back of an array, reallocate if necessary
   void push_back(const T& value) {
@@ -134,7 +120,7 @@ class vector {
       return;
     } else {
       m_size++;
-      shift_elements_right(pos, 1);
+      shift_right(pos, 1);
       m_ptr[pos] = value;
     }
   }
@@ -143,9 +129,10 @@ class vector {
     if (pos >= m_size)
       throw std::out_of_range(format("erase, pos=%d, m_size=%d", pos, m_size));
     m_size--;
-    shift_elements_left(pos, 1);
+    shift_left(pos, 1);
   }
-  T* search(const T& value) {
+
+  T* find(const T& value) {
     for (auto iter = this->begin(); iter != this->end(); ++iter) {
       if (*iter == value)
         return iter;
@@ -154,11 +141,24 @@ class vector {
   }
 
  private:
+  // copy-and-swap idiom, for strong exception safety
+  void swap(vector& other) noexcept {
+    std::swap(m_ptr, other.m_ptr);
+    std::swap(m_size, other.m_size);
+    std::swap(m_capacity, other.m_capacity);
+  }
+
+  // move-and-destroy idiom, for strong exception safety
+  void move_from(vector& other) noexcept {
+    m_ptr = std::exchange(other.m_ptr, nullptr);
+    m_size = std::exchange(other.m_size, 0);
+    m_capacity = std::exchange(other.m_capacity, 0);
+  }
+
   // check if size exceeds capacity, if so reallocate m_ptr
   void fit_capacity() {
     if (m_capacity >= m_size)
       return;
-
     std::size_t new_capacity{m_capacity};
     while (new_capacity < m_size) {
       new_capacity = 2 * new_capacity;
@@ -167,14 +167,14 @@ class vector {
   }
 
   // move all index starting from index "offset" indexes to the right
-  void shift_elements_right(const std::size_t index, const std::size_t offset) {
+  void shift_right(const std::size_t index, const std::size_t offset) {
     for (std::size_t i = (m_size - 1) - offset; i >= index; --i) {
       m_ptr[i + offset] = m_ptr[i];
     }
   }
 
   // move all index starting from index "offset" indexes to the left
-  void shift_elements_left(const std::size_t index, const std::size_t offset) {
+  void shift_left(const std::size_t index, const std::size_t offset) {
     for (std::size_t i = index; i <= m_size - offset; ++i) {
       m_ptr[index] = m_ptr[i + offset];
     }
@@ -184,8 +184,6 @@ class vector {
   std::size_t m_size;
   std::size_t m_capacity;
 };
-
-}  // namespace custom
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const custom::vector<T>& vec) {
@@ -213,3 +211,5 @@ template <typename T>
 T* end(const custom::vector<T>& vec) {
   return vec.end();
 }
+
+}  // namespace custom
