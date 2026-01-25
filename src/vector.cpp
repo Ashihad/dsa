@@ -1,5 +1,3 @@
 #include "vector.hpp"
 
-namespace custom
-{
-}
+namespace custom {}
