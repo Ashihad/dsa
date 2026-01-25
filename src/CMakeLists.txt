@@ -4,4 +4,3 @@ target_include_directories(${LIBRARY_NAME} PUBLIC "../hdr")
 
 target_set_warnings(TARGET ${LIBRARY_NAME} ENABLE "YES" AS_ERRORS
                     ${ENABLE_WARNINGS_AS_ERRORS})
-
