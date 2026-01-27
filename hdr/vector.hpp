@@ -44,6 +44,7 @@ class vector {
       : m_ptr{std::exchange(other.m_ptr, nullptr)},
         m_size{std::exchange(other.m_size, 0)},
         m_capacity{std::exchange(other.m_capacity, 0)} {}
+
   vector& operator=(vector&& rhs) noexcept {
     move_from(rhs);
     return *this;
@@ -85,15 +86,15 @@ class vector {
   }
 
   // bound-checking access
-  T& at(const std::size_t index) {
-    // Scott Meyer const pattern
-    return const_cast<T&>(std::as_const(*this).at(index));
-  }
-
   const T& at(const std::size_t index) const {
     if (index >= m_size)
       throw std::out_of_range(format("out of bounds access, index = %zu, size = %zu", index, m_size));
     return m_ptr[index];
+  }
+
+  T& at(const std::size_t index) {
+    // Scott Meyer const pattern
+    return const_cast<T&>(std::as_const(*this).at(index));
   }
 
   // subscript operators, bound check is performed
