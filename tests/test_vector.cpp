@@ -268,7 +268,7 @@ TEST_F(VectorTests, erase_out_of_range) {
 TEST_F(VectorTests, find_elem_found) {
   vector<int> vec = {1, 2, 3, 4};
 
-  auto pos{vec.find(3)};
+  auto* pos{vec.find(3)};
 
   ASSERT_EQ(*pos, 3);
   ASSERT_EQ(std::distance(vec.begin(), pos), 2);
@@ -277,7 +277,7 @@ TEST_F(VectorTests, find_elem_found) {
 TEST_F(VectorTests, find_elem_not_found) {
   vector<int> vec = {1, 2, 3, 4};
 
-  auto pos{vec.find(5)};
+  auto* pos{vec.find(5)};
 
   ASSERT_EQ(pos, vec.end());
 }

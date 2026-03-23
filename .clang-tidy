@@ -1,0 +1,13 @@
+---
+Checks: "-*,
+         bugprone-*,
+         clang-analyzer-*,
+         cppcoreguidelines-*,
+         misc-*,
+         -*-non-private-member-variables-in-classes,
+         modernize-*',
+         performance-*,
+         readability-*,
+         -readability-identifier-length,"
+WarningsAsErrors: ''
+FormatStyle: "none"

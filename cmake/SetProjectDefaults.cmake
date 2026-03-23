@@ -1,0 +1,8 @@
+macro(set_project_defaults)
+  include(EnableCoverage)
+  enable_coverage()
+  include(SetSanitizers)
+  set_sanitizers()
+  include(SetDefaultWarnings)
+  set_default_warnings()
+endmacro()

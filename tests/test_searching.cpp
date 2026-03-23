@@ -25,22 +25,26 @@ class LinearSearchTests : public testing::Test {
 TEST_F(LinearSearchTests, empty_input) {
   vector<int> test_vec(0);
 
-  auto ret{linear_search(begin(test_vec), end(test_vec), 0)};
-  ASSERT_EQ(ret, end(test_vec));
+  std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), 0)};
+
+  ASSERT_FALSE(ret.has_value());
 }
 
 TEST_F(LinearSearchTests, basic_search_value_inserted) {
   vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8};
 
-  auto ret{linear_search(begin(test_vec), end(test_vec), 3)};
-  ASSERT_EQ(std::distance(begin(test_vec), ret), 1);
+  std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), 3)};
+
+  ASSERT_TRUE(ret.has_value());
+  ASSERT_EQ(std::distance(begin(test_vec), *ret), 1);
 }
 
 TEST_F(LinearSearchTests, basic_search_value_not_inserted) {
   vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8};
 
-  auto ret{linear_search(begin(test_vec), end(test_vec), 10)};
-  ASSERT_EQ(ret, end(test_vec));
+  std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), 10)};
+
+  ASSERT_FALSE(ret.has_value());
 }
 
 TEST_F(LinearSearchTests, random_test_value_inserted) {
@@ -54,8 +58,10 @@ TEST_F(LinearSearchTests, random_test_value_inserted) {
       std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
       auto correct_index{insert_value_randomly(begin(test_vec), end(test_vec), random_value)};
 
-      auto ret{linear_search(begin(test_vec), end(test_vec), random_value)};
-      ASSERT_EQ(std::distance(begin(test_vec), ret), std::distance(begin(test_vec), correct_index));
+      std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), random_value)};
+
+      ASSERT_TRUE(ret.has_value());
+      ASSERT_EQ(std::distance(begin(test_vec), *ret), std::distance(begin(test_vec), correct_index));
     }
   }
 }
@@ -70,8 +76,9 @@ TEST_F(LinearSearchTests, random_test_value_not_inserted) {
       // randomly
       std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
 
-      auto ret{linear_search(begin(test_vec), end(test_vec), random_value)};
-      ASSERT_EQ(ret, end(test_vec));
+      std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), random_value)};
+
+      ASSERT_FALSE(ret.has_value());
     }
   }
 }
@@ -85,22 +92,26 @@ class BinarySearchTests : public testing::Test {
 TEST_F(BinarySearchTests, HandleEmptyInput) {
   vector<int> test_vec;
 
-  auto ret{binary_search(begin(test_vec), end(test_vec), 0)};
-  ASSERT_EQ(ret, end(test_vec));
+  std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), 0)};
+
+  ASSERT_FALSE(ret.has_value());
 }
 
 TEST_F(BinarySearchTests, basic_search_value_inserted) {
   vector<int> test_vec{1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-  auto ret{binary_search(begin(test_vec), end(test_vec), 3)};
-  ASSERT_EQ(std::distance(begin(test_vec), ret), 2);
+  std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), 3)};
+
+  ASSERT_TRUE(ret.has_value()) << std::distance(begin(test_vec), end(test_vec));
+  ASSERT_EQ(std::distance(begin(test_vec), *ret), 2);
 }
 
 TEST_F(BinarySearchTests, basic_search_value_not_inserted) {
   vector<int> test_vec{1, 2, 4, 5, 6, 7, 8, 9};
 
-  auto ret{binary_search(begin(test_vec), end(test_vec), 3)};
-  ASSERT_EQ(ret, end(test_vec));
+  std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), 3)};
+
+  ASSERT_FALSE(ret.has_value());
 }
 
 TEST_F(BinarySearchTests, random_search_value_inserted) {
@@ -116,9 +127,10 @@ TEST_F(BinarySearchTests, random_search_value_inserted) {
       // vector must be sorted for this algo
       std::sort(begin(test_vec), end(test_vec));
 
-      auto ret{binary_search(begin(test_vec), end(test_vec), random_value)};
-      ASSERT_NE(ret, end(test_vec));
-      ASSERT_EQ(*ret, random_value);
+      std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), random_value)};
+
+      ASSERT_TRUE(ret.has_value());
+      ASSERT_EQ(*(ret.value()), random_value);
     }
   }
 }
@@ -135,8 +147,9 @@ TEST_F(BinarySearchTests, random_search_value_not_inserted) {
       // vector must be sorted for this algo
       std::sort(begin(test_vec), end(test_vec));
 
-      auto ret{binary_search(begin(test_vec), end(test_vec), random_value)};
-      ASSERT_EQ(ret, end(test_vec));
+      std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), random_value)};
+
+      ASSERT_FALSE(ret.has_value());
     }
   }
 }

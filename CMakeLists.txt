@@ -25,7 +25,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Project options
 option(WARNINGS_AS_ERRORS "Enable to treat warnings as errors" FALSE)
 
-option(ENABLE_ASAN "Enable address sanitizer" FALSE)
+option(ENABLE_ASAN "Enable address sanitizer" TRUE)
 option(ENABLE_UBSAN "Enable undefined sanitizer" FALSE)
 option(ENABLE_LSAN "Enable leak sanitizer" FALSE)
 option(ENABLE_TSAN "Enable thread sanitizer" FALSE)
@@ -35,6 +35,9 @@ option(ENABLE_COVERAGE "Enable coverage reporting" FALSE)
 # Global project defaults
 add_library(PROJECT_DEFAULTS INTERFACE)
 target_compile_features(PROJECT_DEFAULTS INTERFACE cxx_std_20)
+
+include(SetProjectDefaults)
+set_project_defaults()
 
 # External libraries
 include(AddGitSubmodule)

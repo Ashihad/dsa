@@ -208,12 +208,14 @@ class vector {
   std::size_t m_capacity;
 };
 
+constexpr std::size_t VECTOR_ELEMS_PER_LINE{10};
+
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const custom::vector<T>& vec) {
   os << "[ ";
   for (std::size_t i{}; i < vec.size(); i++) {
     os << vec[i] << ' ';
-    if ((i + 1) % 10 == 0 && i != vec.size() - 1)
+    if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1)
       os << '\n';
   }
   os << "]";
