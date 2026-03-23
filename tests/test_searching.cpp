@@ -1,19 +1,21 @@
 #include <gtest/gtest.h>
-#include "misc.hpp"
-#include "searching.hpp"
-#include "vector.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
 
+#include "misc.hpp"
+#include "searching.hpp"
+#include "vector.hpp"
+
 using namespace ::custom;
 
-template <typename T>
+template<typename T>
 T* insert_value_randomly(T* first, T* last, T value) {
-  std::size_t random_index{static_cast<std::size_t>(std::rand()) %
-                           static_cast<std::size_t>(std::distance(first, last))};
+  std::size_t random_index{
+      static_cast<std::size_t>(std::rand()) %
+      static_cast<std::size_t>(std::distance(first, last))};
   first[random_index] = value;
   return first + random_index;
 }
@@ -23,7 +25,7 @@ class LinearSearchTests : public testing::Test {
 };
 
 TEST_F(LinearSearchTests, empty_input) {
-  vector<int> test_vec(0);
+  vector<int> test_vec{};
 
   std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), 0)};
 
@@ -49,19 +51,24 @@ TEST_F(LinearSearchTests, basic_search_value_not_inserted) {
 
 TEST_F(LinearSearchTests, random_test_value_inserted) {
   vector<int> vec_sizes{10, 100, 1000};
-  for (const int& vec_size : vec_sizes) {
+  for (auto vec_size : vec_sizes) {
     for (int i = 0; i < 10; ++i) {
-      vector<int> test_vec{get_random_vector<int>(static_cast<std::size_t>(vec_size))};
+      vector<int> test_vec{
+          get_random_vector<int>(static_cast<std::size_t>(vec_size))};
       int random_value{std::rand() % 10 * vec_size};
       // remove random values from vector, replace with value impossible to get
       // randomly
-      std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
-      auto correct_index{insert_value_randomly(begin(test_vec), end(test_vec), random_value)};
+      std::replace(
+          begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
+      auto correct_index{
+          insert_value_randomly(begin(test_vec), end(test_vec), random_value)};
 
-      std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), random_value)};
+      std::optional<int*> ret{
+          linear_search(begin(test_vec), end(test_vec), random_value)};
 
       ASSERT_TRUE(ret.has_value());
-      ASSERT_EQ(std::distance(begin(test_vec), *ret), std::distance(begin(test_vec), correct_index));
+      ASSERT_EQ(std::distance(begin(test_vec), *ret),
+                std::distance(begin(test_vec), correct_index));
     }
   }
 }
@@ -70,13 +77,16 @@ TEST_F(LinearSearchTests, random_test_value_not_inserted) {
   vector<int> vec_sizes{10, 100, 1000};
   for (int vec_size : vec_sizes) {
     for (int i = 0; i < 10; ++i) {
-      vector<int> test_vec{get_random_vector<int>(static_cast<std::size_t>(vec_size))};
+      vector<int> test_vec{
+          get_random_vector<int>(static_cast<std::size_t>(vec_size))};
       int random_value{std::rand() % 10 * vec_size};
       // remove random values from vector, replace with value impossible to get
       // randomly
-      std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
+      std::replace(
+          begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
 
-      std::optional<int*> ret{linear_search(begin(test_vec), end(test_vec), random_value)};
+      std::optional<int*> ret{
+          linear_search(begin(test_vec), end(test_vec), random_value)};
 
       ASSERT_FALSE(ret.has_value());
     }
@@ -118,16 +128,19 @@ TEST_F(BinarySearchTests, random_search_value_inserted) {
   vector<int> vec_sizes{10, 100, 1000};
   for (int vec_size : vec_sizes) {
     for (int i = 0; i < 10; ++i) {
-      vector<int> test_vec{get_random_vector<int>(static_cast<std::size_t>(vec_size))};
+      vector<int> test_vec{
+          get_random_vector<int>(static_cast<std::size_t>(vec_size))};
       int random_value{std::rand() % 10 * vec_size};
       // remove random values from vector, replace with value impossible to get
       // randomly
-      std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
+      std::replace(
+          begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
       insert_value_randomly(begin(test_vec), end(test_vec), random_value);
       // vector must be sorted for this algo
       std::sort(begin(test_vec), end(test_vec));
 
-      std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), random_value)};
+      std::optional<int*> ret{
+          binary_search(begin(test_vec), end(test_vec), random_value)};
 
       ASSERT_TRUE(ret.has_value());
       ASSERT_EQ(*(ret.value()), random_value);
@@ -139,15 +152,18 @@ TEST_F(BinarySearchTests, random_search_value_not_inserted) {
   vector<int> vec_sizes{10, 100, 1000};
   for (int vec_size : vec_sizes) {
     for (int i = 0; i < 10; ++i) {
-      vector<int> test_vec{get_random_vector<int>(static_cast<std::size_t>(vec_size))};
+      vector<int> test_vec{
+          get_random_vector<int>(static_cast<std::size_t>(vec_size))};
       int random_value{std::rand() % 10 * vec_size};
       // remove random values from vector, replace with value impossible to get
       // randomly
-      std::replace(begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
+      std::replace(
+          begin(test_vec), end(test_vec), random_value, 10 * vec_size + 1);
       // vector must be sorted for this algo
       std::sort(begin(test_vec), end(test_vec));
 
-      std::optional<int*> ret{binary_search(begin(test_vec), end(test_vec), random_value)};
+      std::optional<int*> ret{
+          binary_search(begin(test_vec), end(test_vec), random_value)};
 
       ASSERT_FALSE(ret.has_value());
     }

@@ -1,3 +1,6 @@
+# Link defaults to every target under src/
+link_libraries(PROJECT_DEFAULTS)
+
 add_executable(
   ${TEST_NAME}
   "test_sorting.cpp"

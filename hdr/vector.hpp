@@ -210,15 +210,22 @@ class vector {
 
 constexpr std::size_t VECTOR_ELEMS_PER_LINE{10};
 
+template<typename T>
+std::string toString(const custom::vector<T>& vec) {
+  std::string out("[ ");
+  for (std::size_t i{}; i < vec.size(); i++) {
+    out.append(std::to_string(vec[i]));
+    out.append(" ");
+    if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1)
+      out.append("\n");
+  }
+  out.append("]");
+  return out;
+}
+
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const custom::vector<T>& vec) {
-  os << "[ ";
-  for (std::size_t i{}; i < vec.size(); i++) {
-    os << vec[i] << ' ';
-    if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1)
-      os << '\n';
-  }
-  os << "]";
+  os << toString(vec);
   return os;
 }
 
