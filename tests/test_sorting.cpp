@@ -1,18 +1,20 @@
 #include <gtest/gtest.h>
 #include "misc.hpp"
 #include "sorting.hpp"
+#include "vector.hpp"
 
 #include <algorithm>
 
-// insertion_sort
+using namespace ::custom;
 
+// insertion_sort
 class InsertionSortTests : public testing::Test {
   void SetUp() override { std::srand(static_cast<unsigned>(std::time(0))); }
 };
 
 TEST_F(InsertionSortTests, HandleEmptyInput) {
-  std::vector<int> test_vec;
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec;
+  vector<int> original_vec = test_vec;
 
   insertion_sort(begin(test_vec), end(test_vec));
 
@@ -22,8 +24,8 @@ TEST_F(InsertionSortTests, HandleEmptyInput) {
 }
 
 TEST_F(InsertionSortTests, HandleOneElementInput) {
-  std::vector<int> test_vec{1};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1};
+  vector<int> original_vec = test_vec;
 
   insertion_sort(begin(test_vec), end(test_vec));
 
@@ -33,8 +35,8 @@ TEST_F(InsertionSortTests, HandleOneElementInput) {
 }
 
 TEST_F(InsertionSortTests, SimpleSort) {
-  std::vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
+  vector<int> original_vec = test_vec;
 
   insertion_sort(begin(test_vec), end(test_vec));
 
@@ -44,8 +46,8 @@ TEST_F(InsertionSortTests, SimpleSort) {
 }
 
 TEST_F(InsertionSortTests, AlreadySorted) {
-  std::vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  vector<int> original_vec = test_vec;
 
   insertion_sort(begin(test_vec), end(test_vec));
 
@@ -55,8 +57,8 @@ TEST_F(InsertionSortTests, AlreadySorted) {
 }
 
 TEST_F(InsertionSortTests, SortedInversely) {
-  std::vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  vector<int> original_vec = test_vec;
 
   insertion_sort(begin(test_vec), end(test_vec));
 
@@ -66,10 +68,11 @@ TEST_F(InsertionSortTests, SortedInversely) {
 }
 
 TEST_F(InsertionSortTests, RandomSort) {
-  for (int vec_size : {10, 100, 1000}) {
+  vector<std::size_t> vec_sizes = {10, 100, 1000};
+  for (auto vec_size : vec_sizes) {
     for (int i = 0; i < 3; ++i) {
-      std::vector<int> test_vec{get_random_vector(vec_size)};
-      std::vector<int> original_vec = test_vec;
+      vector<int> test_vec{get_random_vector<int>(vec_size)};
+      vector<int> original_vec = test_vec;
 
       selection_sort(begin(test_vec), end(test_vec));
 
@@ -87,8 +90,8 @@ class SelectionSortTests : public testing::Test {
 };
 
 TEST_F(SelectionSortTests, HandleEmptyInput) {
-  std::vector<int> test_vec;
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec;
+  vector<int> original_vec = test_vec;
 
   selection_sort(begin(test_vec), end(test_vec));
 
@@ -98,8 +101,8 @@ TEST_F(SelectionSortTests, HandleEmptyInput) {
 }
 
 TEST_F(SelectionSortTests, HandleOneElementInput) {
-  std::vector<int> test_vec{1};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1};
+  vector<int> original_vec = test_vec;
 
   selection_sort(begin(test_vec), end(test_vec));
 
@@ -109,8 +112,8 @@ TEST_F(SelectionSortTests, HandleOneElementInput) {
 }
 
 TEST_F(SelectionSortTests, SimpleSort) {
-  std::vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
+  vector<int> original_vec = test_vec;
 
   selection_sort(begin(test_vec), end(test_vec));
 
@@ -120,8 +123,8 @@ TEST_F(SelectionSortTests, SimpleSort) {
 }
 
 TEST_F(SelectionSortTests, AlreadySorted) {
-  std::vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  vector<int> original_vec = test_vec;
 
   selection_sort(begin(test_vec), end(test_vec));
 
@@ -131,8 +134,8 @@ TEST_F(SelectionSortTests, AlreadySorted) {
 }
 
 TEST_F(SelectionSortTests, SortedInversely) {
-  std::vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  vector<int> original_vec = test_vec;
 
   selection_sort(begin(test_vec), end(test_vec));
 
@@ -142,10 +145,11 @@ TEST_F(SelectionSortTests, SortedInversely) {
 }
 
 TEST_F(SelectionSortTests, RandomSort) {
-  for (int vec_size : {10, 100, 1000}) {
+  vector<std::size_t> vec_sizes = {10, 100, 1000};
+  for (auto vec_size : vec_sizes) {
     for (int i = 0; i < 3; ++i) {
-      std::vector<int> test_vec{get_random_vector(vec_size)};
-      std::vector<int> original_vec = test_vec;
+      vector<int> test_vec{get_random_vector<int>(vec_size)};
+      vector<int> original_vec = test_vec;
 
       selection_sort(begin(test_vec), end(test_vec));
 
@@ -163,8 +167,8 @@ class MergeSortTests : public testing::Test {
 };
 
 TEST_F(MergeSortTests, HandleEmptyInput) {
-  std::vector<int> test_vec;
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec;
+  vector<int> original_vec = test_vec;
 
   merge_sort(begin(test_vec), end(test_vec));
 
@@ -174,8 +178,8 @@ TEST_F(MergeSortTests, HandleEmptyInput) {
 }
 
 TEST_F(MergeSortTests, HandleOneElementInput) {
-  std::vector<int> test_vec{1};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1};
+  vector<int> original_vec = test_vec;
 
   merge_sort(begin(test_vec), end(test_vec));
 
@@ -185,8 +189,8 @@ TEST_F(MergeSortTests, HandleOneElementInput) {
 }
 
 TEST_F(MergeSortTests, SimpleSort) {
-  std::vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
+  vector<int> original_vec = test_vec;
 
   merge_sort(begin(test_vec), end(test_vec));
 
@@ -196,8 +200,8 @@ TEST_F(MergeSortTests, SimpleSort) {
 }
 
 TEST_F(MergeSortTests, AlreadySorted) {
-  std::vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  vector<int> original_vec = test_vec;
 
   merge_sort(begin(test_vec), end(test_vec));
 
@@ -207,8 +211,8 @@ TEST_F(MergeSortTests, AlreadySorted) {
 }
 
 TEST_F(MergeSortTests, SortedInversely) {
-  std::vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  vector<int> original_vec = test_vec;
 
   merge_sort(begin(test_vec), end(test_vec));
 
@@ -218,10 +222,11 @@ TEST_F(MergeSortTests, SortedInversely) {
 }
 
 TEST_F(MergeSortTests, RandomSort) {
-  for (int vec_size : {10, 100, 1000}) {
+  vector<std::size_t> vec_sizes = {10, 100, 1000};
+  for (auto vec_size : vec_sizes) {
     for (int i = 0; i < 3; ++i) {
-      std::vector<int> test_vec{get_random_vector(vec_size)};
-      std::vector<int> original_vec = test_vec;
+      vector<int> test_vec{get_random_vector<int>(vec_size)};
+      vector<int> original_vec = test_vec;
 
       merge_sort(begin(test_vec), end(test_vec));
 
@@ -239,8 +244,8 @@ class BubbleSortTests : public testing::Test {
 };
 
 TEST_F(BubbleSortTests, HandleEmptyInput) {
-  std::vector<int> test_vec;
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec;
+  vector<int> original_vec = test_vec;
 
   bubble_sort(begin(test_vec), end(test_vec));
 
@@ -250,8 +255,8 @@ TEST_F(BubbleSortTests, HandleEmptyInput) {
 }
 
 TEST_F(BubbleSortTests, HandleOneElementInput) {
-  std::vector<int> test_vec{1};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1};
+  vector<int> original_vec = test_vec;
 
   bubble_sort(begin(test_vec), end(test_vec));
 
@@ -261,8 +266,8 @@ TEST_F(BubbleSortTests, HandleOneElementInput) {
 }
 
 TEST_F(BubbleSortTests, SimpleSort) {
-  std::vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
+  vector<int> original_vec = test_vec;
 
   bubble_sort(begin(test_vec), end(test_vec));
 
@@ -272,8 +277,8 @@ TEST_F(BubbleSortTests, SimpleSort) {
 }
 
 TEST_F(BubbleSortTests, AlreadySorted) {
-  std::vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  vector<int> original_vec = test_vec;
 
   bubble_sort(begin(test_vec), end(test_vec));
 
@@ -283,8 +288,8 @@ TEST_F(BubbleSortTests, AlreadySorted) {
 }
 
 TEST_F(BubbleSortTests, SortedInversely) {
-  std::vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-  std::vector<int> original_vec = test_vec;
+  vector<int> test_vec{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  vector<int> original_vec = test_vec;
 
   bubble_sort(begin(test_vec), end(test_vec));
 
@@ -294,10 +299,11 @@ TEST_F(BubbleSortTests, SortedInversely) {
 }
 
 TEST_F(BubbleSortTests, RandomSort) {
-  for (int vec_size : {10, 100, 1000}) {
+  vector<std::size_t> vec_sizes = {10, 100, 1000};
+  for (auto vec_size : vec_sizes) {
     for (int i = 0; i < 3; ++i) {
-      std::vector<int> test_vec{get_random_vector(vec_size)};
-      std::vector<int> original_vec = test_vec;
+      vector<int> test_vec{get_random_vector<int>(vec_size)};
+      vector<int> original_vec = test_vec;
 
       bubble_sort(begin(test_vec), end(test_vec));
 

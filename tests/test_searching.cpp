@@ -11,15 +11,6 @@
 
 using namespace ::custom;
 
-template<typename T>
-T* insert_value_randomly(T* first, T* last, T value) {
-  std::size_t random_index{
-      static_cast<std::size_t>(std::rand()) %
-      static_cast<std::size_t>(std::distance(first, last))};
-  first[random_index] = value;
-  return first + random_index;
-}
-
 class LinearSearchTests : public testing::Test {
   void SetUp() override { std::srand(static_cast<unsigned>(std::time(0))); }
 };
@@ -51,7 +42,7 @@ TEST_F(LinearSearchTests, basic_search_value_not_inserted) {
 
 TEST_F(LinearSearchTests, random_test_value_inserted) {
   vector<int> vec_sizes{10, 100, 1000};
-  for (auto vec_size : vec_sizes) {
+  for (int vec_size : vec_sizes) {
     for (int i = 0; i < 10; ++i) {
       vector<int> test_vec{
           get_random_vector<int>(static_cast<std::size_t>(vec_size))};
