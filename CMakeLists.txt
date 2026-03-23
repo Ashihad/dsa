@@ -42,7 +42,7 @@ set_project_defaults()
 # External libraries
 include(AddGitSubmodule)
 include(CPM)
-cpmaddpackage("gh:google/googletest#v1.14.0")
+cpmaddpackage("gh:google/googletest#v1.17.0")
 
 # Main library
 set(LIBRARY_NAME "dsa")
