@@ -7,23 +7,22 @@ namespace custom {
  * helper method for merge sort
  */
 template<typename T>
-void merge(T* begin, T* middle, T* end) {
+void merge_sorted(T* begin, T* middle, T* end) {
   // create two vectors, copy half of input vector to the left one, copy the
   // rest to the right one
-  custom::vector<int> left;
-  left.resize(static_cast<std::size_t>(std::distance(begin, middle)));
-  custom::vector<int> right;
-  right.resize(statich_cast<std::size_t>(std::distance(middle, end)));
+  vector<int> left(static_cast<std::size_t>(middle - begin));
+  vector<int> right(static_cast<std::size_t>(end - middle));
   std::copy(begin, middle, left.begin());
-  std::copy(middle, end, std::begin(right));
+  std::copy(middle, end, right.begin());
 
-  // iterate over input, left and right, if left has lower or equa; item insert
-  // it to input and increment iterator, if not do the same to the right one
+  // iterate over input, left and right, if left has lower or equal to item
+  // insert it to input and increment iterator, if not do the same to the right
+  // one
   auto* left_iter{left.begin()};
   auto* right_iter{right.begin()};
   for (auto iter = begin; iter != end; ++iter) {
-    if (right_iter == std::end(right) ||
-        (left_iter != std::end(left) && *left_iter <= *right_iter)) {
+    if (right_iter == right.end() ||
+        (left_iter != left.end() && *left_iter <= *right_iter)) {
       *iter = *left_iter;
       ++left_iter;
     } else {
@@ -33,4 +32,4 @@ void merge(T* begin, T* middle, T* end) {
   }
 }
 
-}
+}  // namespace custom
