@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "misc.hpp"
+#include "test_misc.hpp"
 #include "searching.hpp"
 #include "vector.hpp"
 

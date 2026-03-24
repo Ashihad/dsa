@@ -35,7 +35,12 @@ void selection_sort(T* begin, T* end) {
   // iterate over every element
   for (auto iter = begin; iter != end; ++iter) {
     // find smallest element in the (iter, end) range
-    auto smallest{std::min_element(iter, end)};
+    T* smallest = iter;
+    for (auto inner_iter = iter + 1; inner_iter != end; inner_iter++) {
+      if (*inner_iter < *smallest) {
+        smallest = inner_iter;
+      }
+    }
     // swap smallest element with current element pointed to by iter
     std::swap(*iter, *smallest);
   }

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "misc.hpp"
+#include "test_misc.hpp"
 #include "vector.hpp"
 
 #include <algorithm>
