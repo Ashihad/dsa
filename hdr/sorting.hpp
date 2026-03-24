@@ -86,27 +86,20 @@ void merge_sort(T* first, T* last) {
   merge(first, middle, last);
 }
 
-#include <iostream>
 template<typename T>
 void bubble_sort(T* begin, T* end) {
   if (std::distance(begin, end) < 2) {
+    // can't sort empty nor one-elem vector
     return;
   }
-  for(auto i = begin; i != end; i++) {
-    std::cout << *i << ' ';
-  }
-  std::cout << '\n';
+  // we are stopping at last elem, decrementing into begin
   for(auto stop = end - 1; stop != begin; stop--) {
+    // iterate from begin until stop
     for(auto iter = begin; iter != stop; iter++) {
-      std::cout << "comparing " << *iter << ", and " << *(iter+1) << '\n';
+      // if next elem is smaller, swap
       if (*(iter + 1) < *iter) {
-        std::cout << "swapping...\n";
         std::swap(*(iter + 1), *iter);
       }
     }
   }
-  for(auto i = begin; i != end; i++) {
-    std::cout << *i << ' ';
-  }
-  std::cout << '\n';
 }
