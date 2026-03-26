@@ -6,6 +6,7 @@ add_library(
   STATIC
   "vector.cpp"
   "misc.cpp"
+  "reduction.cpp"
   "searching.cpp"
   "sorting.cpp"
 )

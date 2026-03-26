@@ -8,6 +8,7 @@
 #include <iostream>
 #include <utility>
 
+#include "reduction.hpp"
 #include "utils.hpp"
 
 namespace custom {
@@ -124,16 +125,18 @@ class vector {
   }
 
   void erase(const std::size_t pos) {
-    if (pos >= m_size)
+    if (pos >= m_size) {
       throw std::out_of_range(format("erase, pos=%u, m_size=%u", pos, m_size));
+    }
     shift_left(pos, 1);
     m_size--;
   }
 
   T* find(const T& value) {
     for (auto iter = this->begin(); iter != this->end(); iter++) {
-      if (*iter == value)
+      if (*iter == value) {
         return iter;
+      }
     }
     return this->end();
   }
@@ -201,6 +204,18 @@ class vector {
     }
     // fill created space with zeros, just to be nice
     std::memset(m_ptr + m_size - offset, T{}, offset * sizeof(T));
+  }
+
+  T* max() {
+    return custom::max(this->begin(), this->end());
+  }
+
+  T* min() {
+    return custom::min(this->begin(), this->end());
+  }
+
+  double avg() {
+    return custom::avg(this->begin(), this->end());
   }
 
   T* m_ptr;
