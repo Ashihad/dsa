@@ -27,8 +27,9 @@ TEST_F(VectorTests, filling_constructor) {
   vector<int> vec(3, 2);
 
   ASSERT_EQ(vec.size(), 3);
-  for (const auto& elem : vec)
+  for (const auto& elem : vec) {
     ASSERT_EQ(elem, 2);
+  }
 }
 
 TEST_F(VectorTests, initializer_list_constructor) {
