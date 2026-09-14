@@ -33,6 +33,7 @@ public:
       m_ptr{new T[other.m_capacity]},
       m_size{other.m_size},
       m_capacity{other.m_capacity} {
+    // TODO: this should recreate objects
     std::copy(other.begin(), other.end(), m_ptr);
   }
 
@@ -53,6 +54,7 @@ public:
   }
 
   virtual ~vector() {
+    // TODO: this leaks on heap objects
     delete[] m_ptr;
     m_ptr = nullptr;
   }
@@ -139,6 +141,7 @@ public:
     if (pos >= m_size) {
       throw std::out_of_range(format("erase, pos=%u, m_size=%u", pos, m_size));
     }
+    // TODO: this leaks on heap objects
     shift_left(pos, 1);
     m_size--;
   }
@@ -243,7 +246,7 @@ std::string toString(const custom::vector<T>& vec) {
     out.append(" ");
     if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1) {
       out.append("\n");
-      }
+    }
   }
   out.append("]");
   return out;

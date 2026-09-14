@@ -46,4 +46,15 @@ double avg(T* begin, T* end) {
   return sum/static_cast<double>(elem_no);
 }
 
+template<typename T>
+bool is_sorted(T* begin, T* end) {
+  if (std::distance(begin, end) == 0 || std::distance(begin, end) == 1) return true;
+  T prev_elem{*begin};
+  for (auto iter{begin+1}; iter != end; iter++) {
+    if (*iter < prev_elem) return false;
+    prev_elem = *iter;
+  }
+  return true;
+}
+
 } // namespace custom

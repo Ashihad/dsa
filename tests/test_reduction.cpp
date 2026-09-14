@@ -72,3 +72,41 @@ TEST_F(MinMaxAvgTests, avg_basic) {
   ASSERT_DOUBLE_EQ(ret, 11.4);
 }
 
+class IsSortedTests : public testing::Test {};
+
+TEST_F(IsSortedTests, empty_input) {
+  vector<int> test_vec{};
+
+  ASSERT_TRUE(is_sorted(test_vec.begin(), test_vec.end()));
+}
+
+TEST_F(IsSortedTests, one_elem_input) {
+  vector<int> test_vec{};
+  test_vec.push_back(1);
+
+  ASSERT_TRUE(is_sorted(test_vec.begin(), test_vec.end()));
+}
+
+TEST_F(IsSortedTests, sorted) {
+  vector<int> test_vec{1, 2, 3, 4, 5};
+
+  ASSERT_TRUE(is_sorted(test_vec.begin(), test_vec.end()));
+}
+
+TEST_F(IsSortedTests, not_sorted) {
+  vector<int> test_vec{1, 2, 8, 4, 5};
+
+  ASSERT_FALSE(is_sorted(test_vec.begin(), test_vec.end()));
+}
+
+TEST_F(IsSortedTests, sorted_repeating_values) {
+  vector<int> test_vec{1, 2, 2, 3, 4};
+
+  ASSERT_TRUE(is_sorted(test_vec.begin(), test_vec.end()));
+}
+
+TEST_F(IsSortedTests, not_sorted_repeating_values) {
+  vector<int> test_vec{1, 2, 2, 4, 3};
+
+  ASSERT_FALSE(is_sorted(test_vec.begin(), test_vec.end()));
+}
