@@ -6,6 +6,7 @@ add_executable(
   "test_reduction.cpp"
   "test_sorting.cpp"
   "test_searching.cpp"
+  "test_transform.cpp"
   "test_vector.cpp"
 )
 

@@ -4,10 +4,12 @@ link_libraries(PROJECT_DEFAULTS)
 add_library(
   ${LIBRARY_NAME}
   STATIC
-  "vector.cpp"
+  "helpers.cpp"
   "misc.cpp"
   "reduction.cpp"
   "searching.cpp"
   "sorting.cpp"
+  "transform.cpp"
+  "vector.cpp"
 )
 target_include_directories(${LIBRARY_NAME} PUBLIC "../hdr")
