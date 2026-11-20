@@ -35,6 +35,7 @@ public:
       m_ptr{new T[other.m_capacity]},
       m_size{other.m_size},
       m_capacity{other.m_capacity} {
+    // TODO: this should recreate objects
     std::copy(other.begin(), other.end(), m_ptr);
   }
 
@@ -55,6 +56,7 @@ public:
   }
 
   virtual ~vector() {
+    // TODO: this leaks on heap objects
     delete[] m_ptr;
     m_ptr = nullptr;
   }
@@ -92,9 +94,10 @@ public:
 
   // bound-checking access
   const T& at(const std::size_t index) const {
-    if (index >= m_size)
+    if (index >= m_size) {
       throw std::out_of_range(format(
           "out of bounds access, index = %zu, size = %zu", index, m_size));
+    }
     return m_ptr[index];
   }
 
@@ -122,9 +125,9 @@ public:
   // insert element at given index, shift all values at bigger indexes one index
   // to the right
   void insert(std::size_t pos, const T& value) {
-    if (pos > m_size)
+    if (pos > m_size) {
       throw std::out_of_range(format("insert, pos=%d, m_size=%d", pos, m_size));
-    else if (pos == m_size) {
+    } else if (pos == m_size) {
       // edge case, treat it like end() iterator in std::vector
       push_back(value);
       return;
@@ -140,6 +143,7 @@ public:
     if (pos >= m_size) {
       throw std::out_of_range(format("erase, pos=%u, m_size=%u", pos, m_size));
     }
+    // TODO: this leaks on heap objects
     shift_left(pos, 1);
     m_size--;
   }
@@ -166,7 +170,6 @@ public:
     reverse(ret.begin(), ret.end());
     return ret;
   }
-
 private:
   // copy-and-swap idiom, for strong exception safety
   void swap(vector& other) noexcept {
@@ -250,8 +253,9 @@ std::string toString(const custom::vector<T>& vec) {
   for (std::size_t i{}; i < vec.size(); i++) {
     out.append(std::to_string(vec[i]));
     out.append(" ");
-    if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1)
+    if ((i + 1) % VECTOR_ELEMS_PER_LINE == 0 && i != vec.size() - 1) {
       out.append("\n");
+    }
   }
   out.append("]");
   return out;

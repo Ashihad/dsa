@@ -4,6 +4,7 @@ link_libraries(PROJECT_DEFAULTS)
 add_executable(
   ${TEST_NAME}
   "test_reduction.cpp"
+  "test_reverse.cpp"
   "test_sorting.cpp"
   "test_searching.cpp"
   "test_transform.cpp"
