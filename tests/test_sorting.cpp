@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "test_misc.hpp"
 #include "sorting.hpp"
-#include "vector.hpp"
+#include "custom_vector.hpp"
 
 #include <algorithm>
 

@@ -8,7 +8,7 @@
  * see https://en.wikipedia.org/wiki/Insertion_sort
  */
 template<typename T>
-void insertion_sort(T* begin, T* end) {
+inline void insertion_sort(T* begin, T* end) {
   if (std::distance(begin, end) < 2) {
     // can't sort empty nor one-elem vector
     return;
@@ -28,7 +28,7 @@ void insertion_sort(T* begin, T* end) {
  * see https://en.wikipedia.org/wiki/Selection_sort
  */
 template<typename T>
-void selection_sort(T* begin, T* end) {
+inline void selection_sort(T* begin, T* end) {
   if (std::distance(begin, end) < 2) {
     // can't sort empty nor one-elem vector
     return;
@@ -52,7 +52,7 @@ void selection_sort(T* begin, T* end) {
  */
 using ::custom::merge_sorted;
 template<typename T>
-void merge_sort(T* first, T* last) {
+inline void merge_sort(T* first, T* last) {
   if (std::distance(first, last) < 2) {
     // can't sort empty nor one-elem vector
     return;
@@ -67,7 +67,7 @@ void merge_sort(T* first, T* last) {
 }
 
 template<typename T>
-void bubble_sort(T* begin, T* end) {
+inline void bubble_sort(T* begin, T* end) {
   if (std::distance(begin, end) < 2) {
     // can't sort empty nor one-elem vector
     return;

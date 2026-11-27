@@ -1,5 +1,3 @@
-
-
 #include <gtest/gtest.h>
 
 #include <algorithm>
@@ -7,9 +5,9 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "custom_vector.hpp"
 #include "test_misc.hpp"
 #include "transform.hpp"
-#include "vector.hpp"
 
 using namespace ::custom;
 

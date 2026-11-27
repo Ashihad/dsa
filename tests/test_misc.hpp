@@ -1,4 +1,6 @@
-#include "vector.hpp"
+#pragma once
+
+#include "custom_vector.hpp"
 
 using ::custom::vector;
 

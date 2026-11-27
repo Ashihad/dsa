@@ -7,7 +7,7 @@
 
 #include "test_misc.hpp"
 #include "searching.hpp"
-#include "vector.hpp"
+#include "custom_vector.hpp"
 
 using namespace ::custom;
 

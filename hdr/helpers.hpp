@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "vector.hpp"
+#include "custom_vector.hpp"
 
 namespace custom {
 
@@ -9,7 +9,7 @@ namespace custom {
  * helper method for merge sort
  */
 template<typename T>
-void merge_sorted(T* begin, T* middle, T* end) {
+inline void merge_sorted(T* begin, T* middle, T* end) {
   // create two vectors, copy half of input vector to the left one, copy the
   // rest to the right one
   vector<int> left(static_cast<std::size_t>(middle - begin));

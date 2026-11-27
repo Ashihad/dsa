@@ -6,9 +6,9 @@
 #include <cstring>
 #include <initializer_list>
 #include <iostream>
+#include <stdexcept>
 #include <utility>
 
-#include "misc.hpp"
 #include "reduction.hpp"
 #include "transform.hpp"
 #include "utils.hpp"
@@ -157,19 +157,20 @@ public:
     return this->end();
   }
 
-  T* max() { return max(begin(), end()); }
+  T* max() { return custom::max(begin(), end()); }
 
-  T* min() { return min(begin(), end()); }
+  T* min() { return custom::min(begin(), end()); }
 
-  double avg() { return avg(begin(), end()); }
+  double avg() { return custom::avg(begin(), end()); }
 
-  void reverse() { reverse(begin(), end()); }
+  void reverse() { custom::reverse(begin(), end()); }
 
   vector<T> make_reverse() {
     vector<T> ret{*this};
-    reverse(ret.begin(), ret.end());
+    custom::reverse(ret.begin(), ret.end());
     return ret;
   }
+
 private:
   // copy-and-swap idiom, for strong exception safety
   void swap(vector& other) noexcept {

@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
-#include "test_misc.hpp"
-#include "vector.hpp"
 
-#include <algorithm>
+#include "test_misc.hpp"
 
 using namespace ::custom;
 
@@ -153,9 +151,9 @@ TEST_F(VectorTests, resize_to_bigger) {
 }
 
 TEST_F(VectorTests, get_basic) {
-	vector<int> vec{1, 2, 3, 4};
+  vector<int> vec{1, 2, 3, 4};
 
-	ASSERT_NO_THROW(vec.at(0));
+  ASSERT_NO_THROW(vec.at(0));
 }
 
 TEST_F(VectorTests, get_throws_on_empty_vector) {
@@ -165,9 +163,9 @@ TEST_F(VectorTests, get_throws_on_empty_vector) {
 }
 
 TEST_F(VectorTests, get_throws_on_out_of_bounds_access) {
-	vector<int> vec{1, 2, 3, 4, 5};
+  vector<int> vec{1, 2, 3, 4, 5};
 
-	ASSERT_ANY_THROW(vec.at(5));
+  ASSERT_ANY_THROW(vec.at(5));
 }
 
 TEST_F(VectorTests, subscript_op_insert) {
@@ -196,9 +194,9 @@ TEST_F(VectorTests, insert_basic) {
 }
 
 TEST_F(VectorTests, insert_front) {
-	vector<int> vec{1, 2, 3, 4};
+  vector<int> vec{1, 2, 3, 4};
 
-	vec.insert(0, 0);
+  vec.insert(0, 0);
 
   ASSERT_EQ(vec.size(), 5);
   ASSERT_EQ(vec[0], 0);
@@ -239,14 +237,14 @@ TEST_F(VectorTests, erase_basic) {
 }
 
 TEST_F(VectorTests, erase_first) {
-	vector<int> vec{1, 2, 3, 4};
+  vector<int> vec{1, 2, 3, 4};
 
-	vec.erase(0);
+  vec.erase(0);
 
-	ASSERT_EQ(vec.size(), 3);
-	ASSERT_EQ(vec[0], 2);
-	ASSERT_EQ(vec[1], 3);
-	ASSERT_EQ(vec[2], 4);
+  ASSERT_EQ(vec.size(), 3);
+  ASSERT_EQ(vec[0], 2);
+  ASSERT_EQ(vec[1], 3);
+  ASSERT_EQ(vec[2], 4);
 }
 
 TEST_F(VectorTests, erase_last) {

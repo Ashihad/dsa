@@ -5,7 +5,7 @@
 namespace custom {
 
 template<typename T>
-T* max(T* begin, T* end) {
+inline T* max(T* begin, T* end) {
   if (end - begin == 0) {
     throw std::out_of_range("custom::max, vector empty");
   }
@@ -19,7 +19,7 @@ T* max(T* begin, T* end) {
 }
 
 template<typename T>
-T* min(T* begin, T* end) {
+inline T* min(T* begin, T* end) {
   if (end - begin == 0) {
     throw std::out_of_range("custom::max, vector empty");
   }
@@ -33,7 +33,7 @@ T* min(T* begin, T* end) {
 }
 
 template<typename T>
-double avg(T* begin, T* end) {
+inline double avg(T* begin, T* end) {
   if (end - begin == 0) {
     throw std::out_of_range("custom::max, vector empty");
   }
@@ -47,7 +47,7 @@ double avg(T* begin, T* end) {
 }
 
 template<typename T>
-bool is_sorted(T* begin, T* end) {
+inline bool is_sorted(T* begin, T* end) {
   if (std::distance(begin, end) == 0 || std::distance(begin, end) == 1) return true;
   T prev_elem{*begin};
   for (auto iter{begin+1}; iter != end; iter++) {

@@ -2,7 +2,7 @@
 
 #include <optional>
 
-#include "vector.hpp"
+#include "custom_vector.hpp"
 
 namespace custom {
 
@@ -10,7 +10,7 @@ namespace custom {
  * see https://en.wikipedia.org/wiki/Linear_search
  */
 template<typename T>
-std::optional<T*> linear_search(T* begin, T* end, T value) {
+inline std::optional<T*> linear_search(T* begin, T* end, T value) {
   // if (std::distance(begin, end) == 0) {
   //   // vector empty
   //   return std::nullopt;
@@ -21,7 +21,7 @@ std::optional<T*> linear_search(T* begin, T* end, T value) {
   return std::nullopt;
 }
 template<typename T>
-std::optional<T*> linear_search(custom::vector<T> vec, T value) {
+inline std::optional<T*> linear_search(custom::vector<T> vec, T value) {
   return linear_search(vec.begin(), vec.end(), value);
 }
 
@@ -30,7 +30,7 @@ std::optional<T*> linear_search(custom::vector<T> vec, T value) {
  * see https://en.wikipedia.org/wiki/Binary_search_algorithm
  */
 template<typename T>
-std::optional<T*> binary_search(T* begin, T* end, T value) {
+inline std::optional<T*> binary_search(T* begin, T* end, T value) {
   if (std::distance(begin, end) == 0) {
     return std::nullopt;  // vector empty
   }
@@ -59,7 +59,7 @@ std::optional<T*> binary_search(T* begin, T* end, T value) {
 
 using custom::vector;
 template<typename T>
-std::optional<T*> binary_search(custom::vector<T> vec, T value) {
+inline std::optional<T*> binary_search(custom::vector<T> vec, T value) {
   return binary_search(vec.begin(), vec.end(), value);
 }
 
